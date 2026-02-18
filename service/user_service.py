@@ -3,10 +3,10 @@ import uuid
 from starlette import status
 from starlette.exceptions import HTTPException
 
-from Db.fernet_encrypt import encrypt_text, decrypt_text
-from Db.firebase import db_api_users, ref
-from Models.Adm import CreateUserResponse
-from Models.User import User
+from service.hash_service import hash_client_secret
+from database.firebase import db_api_users, ref
+from models.adm import CreateUserResponse
+from models.user import User
 
 ROLES = ["ADM", "USER"]
 
@@ -36,7 +36,7 @@ def add_user(client_id: str, roles: str, user: User):
         )
     else:
         user_client_scret = str(uuid.uuid4())
-        client_secret_to_database = encrypt_text(user_client_scret)
+        client_secret_to_database = hash_client_secret(user_client_scret)
         db_api_users.child(client_id).set({
             'client_secret': client_secret_to_database,
             'roles': roles_split
@@ -57,7 +57,5 @@ def get_user_client_id(cliente_id: str):
 
 def get_all_user():
     user_list = ref.child('api-users').get()
-    for user in user_list:
-        user_list[user]['client_secret'] = decrypt_text(user_list[user]['client_secret'])
 
     return user_list

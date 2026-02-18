@@ -1,8 +1,8 @@
 from typing import Annotated
 from fastapi import APIRouter, Header, Depends
 
-from Models.Token import GetTokenRequest, GetTokenResponse, ValidateTokenResponse
-from Service.TokenService import create_token, auth_login
+from models.token import GetTokenRequest, GetTokenResponse, ValidateTokenResponse
+from service.token_service import create_token, auth_login
 
 auth = APIRouter(tags=["Token"], prefix="/token")
 

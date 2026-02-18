@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 
-from Models.Transcribe import TranscricaoRequest, TranscricaoResponse
-from Service.TokenService import auth_login
-from Service.TranscricaoService import transcribe_audio
+from models.transcribe import TranscricaoRequest, TranscricaoResponse
+from service.token_service import auth_login
+from service.transcricao_service import transcribe_audio
 
 transcricao = APIRouter(tags=["Transcrição"])
 

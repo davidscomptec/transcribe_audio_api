@@ -21,3 +21,5 @@ credenciais_firebase = {
 url_firebase = os.getenv("DATABASE_URL")
 
 fernet_key = os.getenv("FERNET_KEY")
+
+users_child_api = os.getenv("USERS_CHILD_API")

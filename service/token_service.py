@@ -5,16 +5,18 @@ from jose import jwt, JWTError
 from starlette import status
 from starlette.exceptions import HTTPException
 
-from Service.UserService import get_user_client_id
-from Config.token_config import ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, ALGORITHM, oauth2_scheme
-from Models.User import User
-from Models.Token import GetTokenResponse
+from service.hash_service import verify_client_secret
+from service.user_service import get_user_client_id
+from config.token_config import ACCESS_TOKEN_EXPIRE_MINUTES, SECRET_KEY, ALGORITHM, oauth2_scheme
+from models.user import User
+from models.token import GetTokenResponse
 
 
 def create_token(headers):
     user = get_user_client_id(headers.client_id)
+    auth_user = verify_client_secret(user['client_secret'], headers.client_secret)
 
-    if not user or user["client_secret"] != headers.client_secret:
+    if not user or not auth_user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="ClienteID e/ou ClientSecret inválidos",
