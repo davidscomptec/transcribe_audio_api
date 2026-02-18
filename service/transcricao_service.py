@@ -14,7 +14,7 @@ def transcribe_audio(url):
 
         audio, sr = librosa.load(audio_data)
 
-        model = whisper.load_model("small")
+        model = whisper.load_model("base")
 
         result = transcribe(model, audio)
         return result["text"]
