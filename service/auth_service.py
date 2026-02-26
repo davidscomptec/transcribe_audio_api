@@ -9,13 +9,11 @@ def auth_login(headers: Annotated[AuthRequest, Header()]):
         auth_api_url + '/api/token/validate',
         headers={
             'Authorization': 'Bearer ' + headers.token,
-        }
-    )
+        })
 
     if response.status_code == 200:
         return
     else:
         raise HTTPException(
             status_code=response.status_code,
-            detail=response.json()['detail']
-        )
+            detail=response.json()['detail'])
